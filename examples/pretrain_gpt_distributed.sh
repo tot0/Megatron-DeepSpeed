@@ -10,10 +10,11 @@ NNODES=1
 NODE_RANK=0
 WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 
-DATA_PATH=<Specify path and file prefix>_text_document
-CHECKPOINT_PATH=<Specify path>
+DATA_PATH=$imagenet_data/oscar-en/oscar-en_text_document
+CHECKPOINT_PATH=$checkpoints
+TENSORBOARD_PATH=output_dir/tensorboard
 
-DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node_rank $NODE_RANK --master_addr $MASTER_ADDR --master_port $MASTER_PORT"
+DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node_rank $AZUREML_CR_NODE_RANK --master_addr $MASTER_ADDR --master_port $MASTER_PORT"
 
 python -m torch.distributed.launch $DISTRIBUTED_ARGS \
        pretrain_gpt.py \
